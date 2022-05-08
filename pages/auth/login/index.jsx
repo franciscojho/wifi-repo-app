@@ -1,14 +1,12 @@
 import { useFormik } from "formik"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import Router from "next/router"
 
 import AppLayout from "src/components/AppLayout"
 import FormikTextField from "src/components/Inputs/FormikTextField"
 import Link from "src/components/Link"
 import loginFormSchema from "src/schemas/loginForm"
 import MainLogo from "src/components/MainLogo"
-// import useStore from "src/store"
 
 import AuthLayout from "../AuthLayout"
 import BackToArrow from "../BackToArrow"
@@ -22,11 +20,6 @@ export default function LoginPage() {
         validationSchema: loginFormSchema,
         onSubmit: (values) => console.log("submitted"),
     })
-
-    // const email = useStore((state) => state.email)
-    // const isUser = useStore((state) => state.isUser)
-    // const user = useStore((state) => state.user)
-    // const checkIsUser = useStore((state) => state.checkIsUser)
 
     return (
         <AppLayout>
