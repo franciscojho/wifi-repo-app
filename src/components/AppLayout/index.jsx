@@ -20,13 +20,14 @@ export default function AppLayout({ children }) {
                     borderRadius: "10px",
                     boxShadow: 3,
                     height: {
-                        xs: "100vh",
+                        xs: "100%",
                         sm: "90vh",
                     },
                     width: {
-                        xs: "100vw",
+                        xs: "100%",
                         sm: "500px",
                     },
+                    overflow: "hidden",
                 }}
             >
                 {children}
