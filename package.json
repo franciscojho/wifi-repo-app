@@ -2,11 +2,15 @@
     "name": "wifi-repo-app",
     "version": "0.1.0",
     "private": true,
+    "license": "MIT",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "docker": "docker-compose --env-file .env.local up -d",
+        "docker:stop": "docker-compose stop",
+        "docker:down": "docker-compose down"
     },
     "dependencies": {
         "@emotion/cache": "latest",
@@ -16,9 +20,15 @@
         "@mui/icons-material": "latest",
         "@mui/material": "latest",
         "@mui/styles": "^5.6.2",
+        "bcrypt": "^5.0.1",
         "formik": "^2.2.9",
+        "joi": "^17.6.0",
+        "js-cookie": "^3.0.1",
+        "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.3.2",
         "next": "12.1.6",
+        "next-connect": "^0.12.2",
+        "next-joi": "^2.2.1",
         "react": "18.1.0",
         "react-dom": "18.1.0",
         "yup": "^0.32.11",
