@@ -1,8 +1,10 @@
 import { BadRequestException } from "handlers/errors"
+import dbConnect from "middlewares/dbConnect"
 import generateToken from "utils/generateToken"
 import User from "models/user"
 
 export default async function signupHandler(req, res) {
+    await dbConnect()
     const { name, email, password } = req.body
     let user = await User.findOne({ email })
     if (user) throw new BadRequestException("This user is already registered")
