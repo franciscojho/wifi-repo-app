@@ -67,7 +67,7 @@ export default function LoginPage() {
                             textDecoration: "none",
                         }}
                     >
-                        Don't have an account? Sign Up
+                        Do not have an account? Sign Up
                     </Link>
                 </Box>
             </AuthLayout>
