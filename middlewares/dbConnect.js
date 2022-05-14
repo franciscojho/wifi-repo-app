@@ -1,5 +1,4 @@
 import mongoose from "mongoose"
-// import nextConnect from "next-connect"
 
 const MONGODB_URI = process.env.MONGO_URI
 
@@ -20,7 +19,7 @@ if (!cached) {
     cached = global.mongoose = { conn: null, promise: null }
 }
 
-export default async function dbConnect() {
+async function dbConnect() {
     if (cached.conn) {
         return cached.conn
     }
@@ -37,6 +36,7 @@ export default async function dbConnect() {
             })
     }
     cached.conn = await cached.promise
+
     return cached.conn
 }
 
@@ -47,3 +47,12 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (err) => {
     console.log("Mongoose default connection error: ", err)
 })
+
+export default async function dbMiddleware(req, res, next) {
+    const connectionResp = await dbConnect()
+
+    if (!connectionResp) {
+        throw new Error("Database connection failed")
+    }
+    next()
+}
