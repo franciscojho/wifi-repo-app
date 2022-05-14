@@ -37,7 +37,6 @@ export default function RegisterForm() {
                         gap: 2,
                         height: "150px",
                         placeItems: "center",
-                        height: "100%",
                     }}
                 >
                     <FormikTextField
