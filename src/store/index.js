@@ -1,13 +1,11 @@
 import { devtools } from "zustand/middleware"
 import create from "zustand"
 
-import authSlice from "./slices/auth"
-import toggleSlice from "./slices/toggle"
+import alertSlice from "./slices/alert"
 
 const useStore = create(
     devtools((set, get) => ({
-        ...authSlice(set, get),
-        ...toggleSlice(set, get),
+        ...alertSlice(set, get),
     }))
 )
 

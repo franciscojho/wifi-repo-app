@@ -1,6 +1,6 @@
+import { NotFoundException } from "handlers/errors"
 import generateToken from "utils/generateToken"
 import User from "models/user"
-import { NotFoundException } from "handlers/errors"
 
 export default async function loginHandler(req, res, next) {
     const { email } = req.body

@@ -1,7 +1,21 @@
+import { useEffect } from "react"
+import Alert from "@mui/material/Alert"
 import Container from "@mui/material/Container"
 import Head from "next/head"
 
+import useStore from "src/store"
+
 export default function AppLayout({ children }) {
+    const message = useStore((state) => state.message)
+    const severity = useStore((state) => state.severity)
+    const clearAlert = useStore((state) => state.clearAlert)
+
+    useEffect(() => {
+        return () => {
+            clearAlert()
+        }
+    }, [])
+
     return (
         <>
             <Head>
@@ -12,6 +26,7 @@ export default function AppLayout({ children }) {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
             <Container
                 component="main"
                 fixed
@@ -32,6 +47,31 @@ export default function AppLayout({ children }) {
             >
                 {children}
             </Container>
+
+            {message && (
+                <Alert
+                    onClose={() => clearAlert()}
+                    severity={severity || "info"}
+                    sx={{
+                        position: "fixed",
+                        width: {
+                            xs: "80%",
+                            sm: "50%",
+                        },
+                        bottom: 20,
+                        left: {
+                            sx: "20%",
+                            sm: "50%",
+                        },
+                        marginLeft: {
+                            xs: 0,
+                            sm: "-25%",
+                        },
+                    }}
+                >
+                    {message}
+                </Alert>
+            )}
         </>
     )
 }
