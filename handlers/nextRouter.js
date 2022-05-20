@@ -1,10 +1,10 @@
 import nextConnect from "next-connect"
 
 import dbMiddleware from "middlewares/dbConnect"
-import loginApiSchema from "contants/schemas/login"
+import loginApiSchema from "contants/schemas/loginApiSchema"
 import validate from "middlewares/validateWithJoi"
 import validatePassword from "middlewares/validatePassword"
-import signupApiSchema from "contants/schemas/signup"
+import signupApiSchema from "contants/schemas/signupApiSchema"
 
 export default function router() {
     const loginMiddlewares = nextConnect().use("/api/auth/login", [
