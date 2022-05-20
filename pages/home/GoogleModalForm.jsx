@@ -11,7 +11,7 @@ export default function GoogleModalForm({
     handleChange,
 }) {
     return (
-        <Stack spacing={2} component="form" onSubmit={formik.handleSubmit}>
+        <Stack spacing={2} component="form" onSubmit={formik?.handleSubmit}>
             <FormikTextField
                 name="wifiSpotName"
                 formik={formik}
@@ -33,7 +33,7 @@ export default function GoogleModalForm({
             <Autocomplete
                 onChange={handleChange}
                 onInputChange={(e, newValue) => setValue(newValue)}
-                options={data.map((data) => data.description)}
+                options={data?.map((data) => data.description)}
                 size="small"
                 isOptionEqualToValue={(option, value) => option === value}
                 renderInput={(params) => (
