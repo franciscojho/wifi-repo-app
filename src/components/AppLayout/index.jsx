@@ -28,6 +28,7 @@ export default function AppLayout({ children }) {
             </Head>
 
             <Container
+                disableGutters
                 component="main"
                 fixed
                 sx={{
