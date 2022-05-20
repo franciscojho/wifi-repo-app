@@ -20,6 +20,7 @@
         "@mui/icons-material": "latest",
         "@mui/material": "latest",
         "@mui/styles": "^5.6.2",
+        "@react-google-maps/api": "^2.10.2",
         "bcrypt": "^5.0.1",
         "formik": "^2.2.9",
         "joi": "^17.6.0",
@@ -31,6 +32,7 @@
         "next-joi": "^2.2.1",
         "react": "18.1.0",
         "react-dom": "18.1.0",
+        "use-places-autocomplete": "^3.0.0",
         "yup": "^0.32.11",
         "zustand": "^4.0.0-rc.1"
     },
