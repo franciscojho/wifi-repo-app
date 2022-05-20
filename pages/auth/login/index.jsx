@@ -6,7 +6,7 @@ import Cookies from "js-cookie"
 import AppLayout from "src/components/AppLayout"
 import FormikTextField from "src/components/Inputs/FormikTextField"
 import Link from "src/components/Link"
-import loginFormSchema from "src/schemas/loginForm"
+import loginFormSchema from "contants/schemas/loginForm"
 import MainLogo from "src/components/MainLogo"
 import noAuth from "helpers/noAuth"
 
@@ -43,7 +43,14 @@ export default function LoginPage() {
     return (
         <AppLayout>
             <AuthLayout>
-                <BackToArrow />
+                <BackToArrow
+                    pushTo="/auth"
+                    sx={{
+                        position: "absolute",
+                        top: 40,
+                        left: 20,
+                    }}
+                />
                 <MainLogo />
                 <Box
                     component="form"

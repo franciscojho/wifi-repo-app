@@ -9,7 +9,7 @@ import FormikTextField from "src/components/Inputs/FormikTextField"
 import Link from "src/components/Link"
 import MainLogo from "src/components/MainLogo"
 import noAuth from "helpers/noAuth"
-import registerformSchema from "src/schemas/registerForm"
+import registerformSchema from "contants/schemas/registerForm"
 import supafetch from "helpers/supafetch"
 import useStore from "src/store"
 
@@ -45,7 +45,14 @@ export default function RegisterForm() {
     return (
         <AppLayout>
             <AuthLayout>
-                <BackToArrow />
+                <BackToArrow
+                    pushTo="/auth"
+                    sx={{
+                        position: "absolute",
+                        top: 40,
+                        left: 20,
+                    }}
+                />
                 <MainLogo />
                 <Box
                     component="form"
