@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 
 import { center, libraries, options } from "contants/googleMap"
 import AccountMenu from "./AccountMenu"

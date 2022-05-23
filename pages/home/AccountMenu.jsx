@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Avatar from "@mui/material/Avatar"
 import Box from "@mui/material/Box"
 import Cookies from "js-cookie"
@@ -17,6 +17,12 @@ export default function AccountMenu() {
     const avatarUrl = useStore((state) => state.avatarUrl)
     const [anchorEl, setAnchorEl] = useState(null)
 
+    const [pathname, setPathname] = useState(null)
+
+    useEffect(() => {
+        setPathname(Router.pathname)
+    }, [])
+
     const open = Boolean(anchorEl)
 
     const handleClick = (event) => {
@@ -28,8 +34,8 @@ export default function AccountMenu() {
     }
 
     const handlePushTo = () => {
-        Router.pathname === "/profile" && Router.push("/home")
-        Router.pathname === "/home" && Router.push("/profile")
+        pathname === "/profile" && Router.push("/home")
+        pathname === "/home" && Router.push("/profile")
     }
 
     const handleSignOut = () => {
@@ -103,11 +109,11 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-                <MenuItem onClick={handlePushTo}>
+                <MenuItem onClick={() => handlePushTo()}>
                     <Avatar src={avatarUrl} />
-                    {Router.pathname === "/home" ? "Profile" : "Home"}
+                    {pathname === "/home" ? "Profile" : "Home"}
                 </MenuItem>
-                <MenuItem onClick={handleSignOut}>
+                <MenuItem onClick={() => handleSignOut()}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
