@@ -18,12 +18,13 @@ import BackToArrow from "../BackToArrow"
 
 export default function RegisterForm() {
     const setError = useStore((state) => state.setError)
+    const setUser = useStore((state) => state.setUser)
 
     const handleSignUp = async (values) => {
         const resp = await supafetch.post("/api/auth/signup", values)
         const data = await resp.json()
-        console.log(data)
         if (data.success) {
+            setUser(data.user)
             Cookies.set("token", data.token)
             Router.replace("/home")
         } else {

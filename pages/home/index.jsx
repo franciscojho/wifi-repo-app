@@ -1,14 +1,13 @@
-/* eslint-disable no-unused-vars */
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
 import { useCallback, useRef, useState } from "react"
-import Box from "@mui/material/Box"
 
 import { center, libraries, options } from "contants/googleMap"
-import AccountMenu from "src/components/AccountMenu"
+import AccountMenu from "./AccountMenu"
 import AppLayout from "src/components/AppLayout"
 import GoogleMarkerList from "./GoogleMarkerList"
 import GoogleSearchModal from "./GoogleSearchModal"
 import withAuthHoc from "helpers/withAuthHoc"
+import PrivateRouteLayout from "src/components/PrivateRouteLayout"
 
 function HomePage() {
     const [tilesLoaded, setTilesLoaded] = useState(false)
@@ -33,13 +32,7 @@ function HomePage() {
 
     return (
         <AppLayout>
-            <Box
-                sx={{
-                    width: "100%",
-                    height: "100%",
-                    position: "relative",
-                }}
-            >
+            <PrivateRouteLayout>
                 <AccountMenu />
                 <GoogleSearchModal
                     panTo={panTo}
@@ -63,7 +56,7 @@ function HomePage() {
                 >
                     {tilesLoaded && <GoogleMarkerList />}
                 </GoogleMap>
-            </Box>
+            </PrivateRouteLayout>
         </AppLayout>
     )
 }

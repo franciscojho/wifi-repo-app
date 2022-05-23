@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Avatar from "@mui/material/Avatar"
 import Box from "@mui/material/Box"
 import Cookies from "js-cookie"
@@ -10,8 +10,18 @@ import MenuItem from "@mui/material/MenuItem"
 import Router from "next/router"
 import Tooltip from "@mui/material/Tooltip"
 
+import useStore from "src/store"
+
 export default function AccountMenu() {
+    const name = useStore((state) => state.name)
+    const avatarUrl = useStore((state) => state.avatarUrl)
     const [anchorEl, setAnchorEl] = useState(null)
+
+    const [pathname, setPathname] = useState(null)
+
+    useEffect(() => {
+        setPathname(Router.pathname)
+    }, [])
 
     const open = Boolean(anchorEl)
 
@@ -21,6 +31,11 @@ export default function AccountMenu() {
 
     const handleClose = () => {
         setAnchorEl(null)
+    }
+
+    const handlePushTo = () => {
+        pathname === "/profile" && Router.push("/home")
+        pathname === "/home" && Router.push("/profile")
     }
 
     const handleSignOut = () => {
@@ -52,7 +67,8 @@ export default function AccountMenu() {
                         aria-expanded={open ? "true" : undefined}
                     >
                         <Avatar
-                            src="https://res.cloudinary.com/dhg7m0ay2/image/upload/v1619849060/zx1g7onk3iliahveufq7.jpg"
+                            alt={name}
+                            src={avatarUrl}
                             sx={{ width: 36, height: 36 }}
                         />
                     </IconButton>
@@ -93,10 +109,11 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-                <MenuItem>
-                    <Avatar /> Profile
+                <MenuItem onClick={() => handlePushTo()}>
+                    <Avatar src={avatarUrl} />
+                    {pathname === "/home" ? "Profile" : "Home"}
                 </MenuItem>
-                <MenuItem onClick={handleSignOut}>
+                <MenuItem onClick={() => handleSignOut()}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

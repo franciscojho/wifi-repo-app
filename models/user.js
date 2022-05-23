@@ -10,6 +10,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    avatar_url: {
+        type: String,
+        default: null,
+    },
     password: {
         type: String,
         required: true,
@@ -22,6 +26,12 @@ UserSchema.pre("save", async function (next) {
     this.password = hashedPassword
     next()
 })
+
+UserSchema.methods.toJSON = function () {
+    const obj = this.toObject()
+    delete obj.password
+    return obj
+}
 
 const User = models.User || model("User", UserSchema)
 

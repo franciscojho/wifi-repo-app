@@ -1,4 +1,4 @@
-import loginHandler from "handlers/auth/login"
+import loginController from "controllers/auth/login"
 import router from "handlers/nextRouter"
 
-export default router().post(loginHandler)
+export default router().post(loginController)

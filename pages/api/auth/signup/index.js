@@ -1,4 +1,4 @@
 import router from "handlers/nextRouter"
-import signupHandler from "handlers/auth/signup"
+import signupController from "controllers/auth/signup"
 
-export default router().post(signupHandler)
+export default router().post(signupController)
