@@ -19,11 +19,14 @@ import useStore from "src/store"
 
 export default function LoginPage() {
     const setError = useStore((state) => state.setError)
+    const setUser = useStore((state) => state.setUser)
 
     const handleLogin = async (values) => {
         const resp = await supafetch.post("/api/auth/login", values)
         const data = await resp.json()
+
         if (data.success) {
+            setUser(data.user)
             Cookies.set("token", data.token)
             Router.replace("/home")
         } else {
