@@ -27,18 +27,21 @@ function ProfilePage() {
     const uploadInputRef = useRef()
 
     const handleSubmitProfile = async (values) => {
-        const img = uploadInputRef.current.files[0]
-        const formData = new FormData()
-        img && formData.append("file", img)
-        formData.append("data", JSON.stringify(values))
+        try {
+            const img = uploadInputRef.current.files[0]
+            const formData = new FormData()
+            img && formData.append("file", img)
+            formData.append("data", JSON.stringify(values))
 
-        const resp = await supafetch.put("/api/user/update", formData)
-        const data = await resp.json()
+            const resp = await supafetch.put("/api/user/update", formData)
+            const data = await resp.json()
 
-        setUser({ ...data.user })
-        setSucess(data.message)
-        if (data.error) {
-            setError(data.error)
+            if (data.error) throw new Error(data.error)
+
+            setUser({ ...data.user })
+            setSucess(data.message)
+        } catch (error) {
+            setError(error.message)
         }
     }
 
