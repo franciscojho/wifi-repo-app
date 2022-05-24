@@ -5,19 +5,24 @@ export const supafetch = {
     put,
 }
 
-const fetchHeaders = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    ...(!!Cookies.get("token") && {
-        Authorization: `Bearer ${Cookies.get("token")}`,
-    }),
+const fetchHeaders = () => {
+    const token = Cookies.get("token")
+    return {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...(!!token && {
+            Authorization: `Bearer ${token}`,
+        }),
+    }
 }
+
+console.log("client-cookie", Cookies.get("token"))
 
 function formatBodyAndHeaders(data) {
     const isFormData = data instanceof FormData
     const body = isFormData ? data : JSON.stringify(data)
-    const { "Content-Type": contentType, ...formDataHeaders } = fetchHeaders
-    const headers = isFormData ? formDataHeaders : fetchHeaders
+    const { "Content-Type": contentType, ...formDataHeaders } = fetchHeaders()
+    const headers = isFormData ? formDataHeaders : fetchHeaders()
     return {
         body,
         headers,
