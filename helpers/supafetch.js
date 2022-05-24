@@ -16,8 +16,6 @@ const fetchHeaders = () => {
     }
 }
 
-console.log("client-cookie", Cookies.get("token"))
-
 function formatBodyAndHeaders(data) {
     const isFormData = data instanceof FormData
     const body = isFormData ? data : JSON.stringify(data)
