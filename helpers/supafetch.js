@@ -2,34 +2,41 @@ import Cookies from "js-cookie"
 
 export const supafetch = {
     post,
-    cloudinaryUpload,
+    put,
 }
 
-function post(url, data) {
+const fetchHeaders = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    ...(!!Cookies.get("token") && {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+    }),
+}
+
+function formatBodyAndHeaders(data) {
+    const isFormData = data instanceof FormData
+    const body = isFormData ? data : JSON.stringify(data)
+    const { "Content-Type": contentType, ...formDataHeaders } = fetchHeaders
+    const headers = isFormData ? formDataHeaders : fetchHeaders
+    return {
+        body,
+        headers,
+    }
+}
+
+function post(url, data, headers) {
     return fetch(url, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            ...(!!Cookies.get("token") && {
-                Authorization: `Bearer ${Cookies.get("token")}`,
-            }),
-        },
-        body: JSON.stringify(data),
+        headers: formatBodyAndHeaders(data).headers,
+        body: formatBodyAndHeaders(data).body,
     })
 }
 
-function cloudinaryUpload(image) {
-    const data = new FormData()
-
-    data.append("file", image)
-    data.append("api_key", process.env.CLOUDINARY_API_KEY)
-    data.append("upload_preset", process.env.CLOUDINARY_PRESET)
-    data.append("folder", "wifi_repo_avatars")
-
-    return fetch(process.env.CLOUDINARY_URL, {
-        method: "POST",
-        body: data,
+function put(url, data) {
+    return fetch(url, {
+        method: "PUT",
+        headers: formatBodyAndHeaders(data).headers,
+        body: formatBodyAndHeaders(data).body,
     })
 }
 
