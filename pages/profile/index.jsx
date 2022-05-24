@@ -1,3 +1,5 @@
+import { useFormik } from "formik"
+import { useRef, useState } from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import EditIcon from "@mui/icons-material/Edit"
@@ -10,8 +12,6 @@ import AppLayout from "src/components/AppLayout"
 import BackToArrow from "pages/auth/BackToArrow"
 import PrivateRouteLayout from "src/components/PrivateRouteLayout"
 import withAuthHoc from "helpers/withAuthHoc"
-import { useFormik } from "formik"
-import { useRef, useState } from "react"
 import supafetch from "helpers/supafetch"
 
 function ProfilePage() {
@@ -26,25 +26,15 @@ function ProfilePage() {
 
     const uploadInputRef = useRef()
 
-    const uploadImage = async () => {
-        const img = uploadInputRef.current.files[0]
-        if (img) {
-            const resp = await supafetch.cloudinaryUpload(img)
-            const data = await resp.json()
-            const cloudinaryUrl = data.secure_url
-            setSelectedImg(null)
-            return cloudinaryUrl
-        }
-        return null
-    }
-
     const handleSubmitProfile = async (values) => {
-        const cloudinaryUrl = await uploadImage()
-        const resp = await supafetch.post("/api/user", {
-            ...values,
-            ...(cloudinaryUrl && { avatar_url: cloudinaryUrl }),
-        })
+        const img = uploadInputRef.current.files[0]
+        const formData = new FormData()
+        img && formData.append("file", img)
+        formData.append("data", JSON.stringify(values))
+
+        const resp = await supafetch.put("/api/user/update", formData)
         const data = await resp.json()
+
         setUser({ ...data.user })
         setSucess(data.message)
         if (data.error) {
