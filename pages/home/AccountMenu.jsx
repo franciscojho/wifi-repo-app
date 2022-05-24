@@ -15,6 +15,7 @@ import useStore from "src/store"
 export default function AccountMenu() {
     const name = useStore((state) => state.name)
     const avatarUrl = useStore((state) => state.avatarUrl)
+    const removeUser = useStore((state) => state.removeUser)
     const [anchorEl, setAnchorEl] = useState(null)
 
     const [pathname, setPathname] = useState(null)
@@ -41,6 +42,7 @@ export default function AccountMenu() {
     const handleSignOut = () => {
         Cookies.remove("token")
         Router.push("/auth")
+        removeUser()
     }
 
     return (
