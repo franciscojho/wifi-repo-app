@@ -1,4 +1,5 @@
 import nextConnect from "next-connect"
+import multer from "multer"
 
 import dbMiddleware from "middlewares/dbConnect"
 import loginApiSchema from "contants/schemas/loginApiSchema"
@@ -6,7 +7,6 @@ import validate from "middlewares/validateWithJoi"
 import validatePassword from "middlewares/validatePassword"
 import signupApiSchema from "contants/schemas/signupApiSchema"
 import validateToken from "middlewares/validateToken"
-import userApiSchema from "contants/schemas/userApiSchema"
 
 export default function router() {
     const loginMiddlewares = nextConnect().use("/api/auth/login", [
@@ -19,9 +19,9 @@ export default function router() {
         validate({ body: signupApiSchema })
     )
 
-    const checkUserMiddlewares = nextConnect().use("/api/user", [
-        validate({ body: userApiSchema }),
+    const userMiddlewares = nextConnect().put("/api/user/update", [
         validateToken,
+        multer().any(),
     ])
 
     return nextConnect({
@@ -40,5 +40,5 @@ export default function router() {
         .use(dbMiddleware)
         .use(loginMiddlewares)
         .use(signupMiddlewares)
-        .use(checkUserMiddlewares)
+        .use(userMiddlewares)
 }
