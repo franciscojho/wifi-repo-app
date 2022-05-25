@@ -12,9 +12,13 @@ import usePlacesAutocomplete, {
 
 import useStore from "src/store"
 import GoogleModalForm from "./GoogleModalForm"
+import supafetch from "helpers/supafetch"
 
 export default function GoogleSearchModal({ panTo, sxButton, sxModal }) {
     const setMarkers = useStore((state) => state.setMarkers)
+    const getUserId = useStore((state) => state.getUserId)
+    const setError = useStore((state) => state.setError)
+    const setSucess = useStore((state) => state.setSucess)
 
     const [lat, setLat] = useState(null)
     const [lng, setLng] = useState(null)
@@ -23,7 +27,7 @@ export default function GoogleSearchModal({ panTo, sxButton, sxModal }) {
     const handleClose = () => setOpen(false)
 
     const {
-        value,
+        value: address,
         suggestions: { data },
         setValue,
         clearSuggestions,
@@ -34,6 +38,31 @@ export default function GoogleSearchModal({ panTo, sxButton, sxModal }) {
         },
     })
 
+    const buildBody = (values) => ({
+        user: getUserId(),
+        wifi_spot_name: values.wifiSpotName,
+        wifi_spot_password: values.wifiSpotPassword,
+        wifi_spot_address: address,
+        lat,
+        lng,
+    })
+
+    const handleAddMarker = async (values) => {
+        try {
+            const resp = await supafetch.post(
+                "/api/markers/add",
+                buildBody(values)
+            )
+            const { marker, message } = await resp.json()
+            setMarkers([{ ...marker }])
+            handleClose()
+            panTo({ lat, lng })
+            setSucess(message)
+        } catch (error) {
+            setError(error.message)
+        }
+    }
+
     const formik = useFormik({
         initialValues: {
             wifiSpotName: "",
@@ -41,15 +70,8 @@ export default function GoogleSearchModal({ panTo, sxButton, sxModal }) {
             wifiSpotAddress: "",
         },
         onSubmit: (values) => {
-            setMarkers({
-                wifiSpotName: formik.values.wifiSpotName,
-                wifiSpotPassword: formik.values.wifiSpotPassword,
-                wifiSpotAddress: value,
-                lat,
-                lng,
-            })
-            handleClose()
-            panTo({ lat, lng })
+            handleAddMarker(values)
+            formik.setValues(formik.initialValues)
         },
     })
 
@@ -64,7 +86,7 @@ export default function GoogleSearchModal({ panTo, sxButton, sxModal }) {
                 setLat(lat)
                 setLng(lng)
             } catch (error) {
-                console.log(error)
+                setError(error.message)
             }
         }
     }

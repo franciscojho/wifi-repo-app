@@ -27,9 +27,10 @@ export default function GroupButtons() {
                 Access with Email
             </Button>
 
-            <Typography fontWeight="bold">O</Typography>
+            <Typography fontWeight="bold">Or</Typography>
 
             <Button
+                disabled
                 fullWidth
                 startIcon={<GoogleIcon />}
                 variant="contained"

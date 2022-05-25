@@ -3,6 +3,7 @@ import Cookies from "js-cookie"
 export const supafetch = {
     post,
     put,
+    get,
 }
 
 const fetchHeaders = () => {
@@ -40,6 +41,13 @@ function put(url, data) {
         method: "PUT",
         headers: formatBodyAndHeaders(data).headers,
         body: formatBodyAndHeaders(data).body,
+    })
+}
+
+function get(url, data) {
+    return fetch(url, {
+        method: "GET",
+        headers: fetchHeaders(),
     })
 }
 

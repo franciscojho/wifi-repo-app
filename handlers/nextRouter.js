@@ -3,9 +3,10 @@ import multer from "multer"
 
 import dbMiddleware from "middlewares/dbConnect"
 import loginApiSchema from "contants/schemas/loginApiSchema"
+import markerApiSchema from "contants/schemas/markerApiSchema"
+import signupApiSchema from "contants/schemas/signupApiSchema"
 import validate from "middlewares/validateWithJoi"
 import validatePassword from "middlewares/validatePassword"
-import signupApiSchema from "contants/schemas/signupApiSchema"
 import validateToken from "middlewares/validateToken"
 
 export default function router() {
@@ -24,6 +25,13 @@ export default function router() {
         multer().any(),
     ])
 
+    const markerMiddlerwares = nextConnect()
+        .post("/api/markers/add", [
+            validate({ body: markerApiSchema }),
+            validateToken,
+        ])
+        .get("/api/markers/get", validateToken)
+
     return nextConnect({
         onError(err, req, res) {
             console.log(err)
@@ -41,4 +49,5 @@ export default function router() {
         .use(loginMiddlewares)
         .use(signupMiddlewares)
         .use(userMiddlewares)
+        .use(markerMiddlerwares)
 }
