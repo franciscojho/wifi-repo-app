@@ -1,13 +1,12 @@
 import AppLayout from "src/components/AppLayout"
 import Box from "@mui/material/Box"
 
-import MainLogo from "src/components/MainLogo"
-import noAuth from "helpers/noAuth"
-
 import AuthLayout from "./AuthLayout"
 import GroupButtons from "./GroupButtons"
+import MainLogo from "src/components/MainLogo"
+import noAuthHoc from "helpers/noAuthHoc"
 
-export default function AccessPage() {
+function AccessPage() {
     return (
         <AppLayout>
             <AuthLayout>
@@ -25,8 +24,4 @@ export default function AccessPage() {
     )
 }
 
-export const getServerSideProps = noAuth((context) => {
-    return {
-        props: {},
-    }
-})
+export default noAuthHoc(AccessPage)
