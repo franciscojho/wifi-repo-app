@@ -19,7 +19,6 @@ export default function GoogleModalForm({
                 label="Wifi Spot Name"
                 size="small"
                 required
-                type="text"
             />
             <FormikTextField
                 name="wifiSpotPassword"
@@ -28,7 +27,6 @@ export default function GoogleModalForm({
                 label="Wifi Spot Password"
                 size="small"
                 required
-                type="password"
             />
             <Autocomplete
                 onChange={handleChange}
