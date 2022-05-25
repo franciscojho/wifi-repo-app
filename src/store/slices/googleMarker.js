@@ -1,9 +1,8 @@
 const googleMarkerSlice = (set, get) => ({
     markers: [],
-    setMarkers: (newMarker) =>
-        set((state) => ({
-            markers: [...state.markers, newMarker],
-        })),
+    clearMarkers: () => set({ markers: [] }),
+    setMarkers: (newMarkers) =>
+        set({ markers: [...get().markers, ...newMarkers] }),
 })
 
 export default googleMarkerSlice
