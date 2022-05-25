@@ -1,21 +1,42 @@
 import { Marker, InfoWindow } from "@react-google-maps/api"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
 import useStore from "src/store"
+import supafetch from "helpers/supafetch"
 
 export default function GoogleMarkerList() {
+    const clearMarkers = useStore((state) => state.clearMarkers)
+    const setMarkers = useStore((state) => state.setMarkers)
+    const markers = useStore((state) => state.markers)
+    const setError = useStore((state) => state.setError)
+
     const [selected, setSelected] = useState(null)
 
-    const markers = useStore((state) => state.markers)
+    useEffect(() => {
+        clearMarkers()
+        async function getGoogleMarkers() {
+            try {
+                const resp = await supafetch.get("/api/markers/get")
+                const { markers } = await resp.json()
+                setMarkers(markers)
+            } catch (error) {
+                setError(error.message)
+            }
+        }
+        getGoogleMarkers()
+    }, [])
 
     return (
         <>
             {markers.map((marker) => (
                 <Marker
-                    key={`${marker.lat}- ${marker.lng}`}
-                    position={{ lat: marker.lat, lng: marker.lng }}
+                    key={marker._id}
+                    position={{
+                        lat: parseFloat(marker?.lat),
+                        lng: parseFloat(marker?.lng),
+                    }}
                     onClick={() => setSelected(marker)}
                     icon={{
                         url: "/wificon.svg",
@@ -45,7 +66,7 @@ export default function GoogleMarkerList() {
                             >
                                 Wifi Spot Name:&nbsp;
                             </Typography>
-                            {selected.wifiSpotName}
+                            {selected.wifi_spot_name}
                         </Typography>
                         <Typography component="p" variant="body2">
                             <Typography
@@ -55,7 +76,7 @@ export default function GoogleMarkerList() {
                             >
                                 Wifi Spot Password:&nbsp;
                             </Typography>
-                            {selected.wifiSpotPassword}
+                            {selected.wifi_spot_password}
                         </Typography>
                         <Typography component="p" variant="body2">
                             <Typography
@@ -65,7 +86,7 @@ export default function GoogleMarkerList() {
                             >
                                 Wifi Spot Address:&nbsp;
                             </Typography>
-                            {selected.wifiSpotAddress}
+                            {selected.wifi_spot_address}
                         </Typography>
                     </Stack>
                 </InfoWindow>
