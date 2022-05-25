@@ -5,18 +5,17 @@ import Cookies from "js-cookie"
 import Router from "next/router"
 
 import AppLayout from "src/components/AppLayout"
+import AuthLayout from "../AuthLayout"
+import BackToArrow from "../BackToArrow"
 import FormikTextField from "src/components/Inputs/FormikTextField"
 import Link from "src/components/Link"
 import MainLogo from "src/components/MainLogo"
-import noAuth from "helpers/noAuth"
+import noAuthHoc from "helpers/noAuthHoc"
 import registerformSchema from "contants/schemas/registerForm"
 import supafetch from "helpers/supafetch"
 import useStore from "src/store"
 
-import AuthLayout from "../AuthLayout"
-import BackToArrow from "../BackToArrow"
-
-export default function RegisterForm() {
+function RegisterForm() {
     const setError = useStore((state) => state.setError)
     const setUser = useStore((state) => state.setUser)
 
@@ -122,8 +121,4 @@ export default function RegisterForm() {
     )
 }
 
-export const getServerSideProps = noAuth((context) => {
-    return {
-        props: {},
-    }
-})
+export default noAuthHoc(RegisterForm)
